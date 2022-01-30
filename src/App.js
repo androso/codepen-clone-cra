@@ -1,47 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import Editor from './Editor'
-import useLocalStorage from '../hooks/useLocalStorage'
+import React, { useEffect, useState } from 'react';
+import Editor from "./components/Editor";
+import "./index.css";
+import useLocalStorage from './hooks/useLocalStorage';
 
 function App() {
-  const [html, setHtml] = useLocalStorage('html', '')
-  const [css, setCss] = useLocalStorage('css', '')
-  const [js, setJs] = useLocalStorage('js', '')
-  const [srcDoc, setSrcDoc] = useState('')
+  const [html, setHtml] = useLocalStorage('html', '');
+  const [css, setCss] = useLocalStorage('css', '');
+  const [js, setJs] = useLocalStorage('js', '');
+  const [srcDoc, setSrcDoc] = useState('');
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSrcDoc(`
-        <html>
-          <body>${html}</body>
-          <style>${css}</style>
-          <script>${js}</script>
-        </html>
+        <body>${html}</body>
+        <style>${css}</style>
+        <script>${js}</script>
       `)
-    }, 250)
+    }, 1000);
 
-    return () => clearTimeout(timeout)
+    return () => clearTimeout(timeout);
   }, [html, css, js])
 
   return (
     <>
       <div className="pane top-pane">
-        <Editor
+        <Editor 
           language="xml"
           displayName="HTML"
-          value={html}
           onChange={setHtml}
+          currentValue={html}
         />
         <Editor
           language="css"
           displayName="CSS"
-          value={css}
           onChange={setCss}
+          currentValue={css}
         />
         <Editor
           language="javascript"
           displayName="JS"
-          value={js}
           onChange={setJs}
+          currentValue={js}
         />
       </div>
       <div className="pane">
@@ -55,7 +54,7 @@ function App() {
         />
       </div>
     </>
-  )
+  );
 }
 
 export default App;
